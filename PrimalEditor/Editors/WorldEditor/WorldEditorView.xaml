@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="PrimalEditor.Editors.WorldEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PrimalEditor.Editors"
+             xmlns:views="clr-namespace:PrimalEditor.GameProject" 
+             xmlns:utilities="clr-namespace:PrimalEditor.Utilities"
+             xmlns:cc="clr-namespace:PrimalEditor.Utilities.CustomControls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"  Focusable="True" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:Boolean x:Key="True">True</sys:Boolean>
+        <sys:Boolean x:Key="False">False</sys:Boolean>
+    </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding UndoCommand}" Key="Z" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding RedoCommand}" Key="Y" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding SaveCommand}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding BuildCommand}" CommandParameter="{StaticResource True}" Key="F7"/>
+    </UserControl.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Undo" Width="90" Command="{Binding UndoCommand}"/>
+            <Button Margin="20,0,0,0" Width="90" Content="Redo" Command="{Binding RedoCommand}"/>
+            <Button Margin="20,0,0,0"  Content="New Script" Click="OnNewScript_Button_Click" 
+                    IsEnabled="{Binding Path=IsEnabled, ElementName=buildButton}"/>
+            <Button Margin="20,0,0,0" x:Name="buildButton"  Content="Build" Command="{Binding BuildCommand}" 
+                    CommandParameter="{StaticResource True}"/>
+            <ComboBox x:Name="runConfig" VerticalAlignment="Center" Margin="10,0" Width="72"
+                      SelectedItem="{Binding BuildConfig}">
+                <ComboBoxItem>Debug</ComboBoxItem>
+                <ComboBoxItem>Release</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Background="{StaticResource Editor.Selected.BackgroundBrush}">
+                    <StackPanel VerticalAlignment="Center">
+                        <cc:NumberBox VerticalAlignment="Center" Value="0" Multiplier="10"  Foreground="{StaticResource Editor.FontBrush}"/>
+                        <cc:ScalarBox VerticalAlignment="Center" Value="0" Multiplier="10"  />
+                        <!--<cc:VectorBox X="0" Y="1" Z="2"  W="3"  VectorType="Vector2"/>
+                        <cc:VectorBox X="0" Y="1" Z="2"  W="3" VectorType="Vector3"/>
+                        <cc:VectorBox X="0" Y="1" Z="2" W="3" VectorType="Vector4"/>
+
+                        <cc:VectorBox X="0" Y="1" Z="2"  W="3" VectorType="Vector2" Orientation="Vertical"/>
+                        <cc:VectorBox X="0" Y="1" Z="2"  W="3" VectorType="Vector3" Orientation="Vertical"/>
+                        <cc:VectorBox X="0" Y="1" Z="2" W="3" VectorType="Vector4" Orientation="Vertical"/>-->
+                    </StackPanel>
+                </Border>
+                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                              Background="Transparent"/>
+                <Grid Grid.Row="1" Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <views:UndoRedoView 
+                        DataContext="{Binding UndoRedo}" Grid.Column="0"
+                        Background="{StaticResource Editor.Window.GrayBrush2}"/>
+                    <GridSplitter Grid.Column="1" Width="5" VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Left" Background="Transparent"/>
+                    <utilities:LoggerView Grid.Column="1" Margin="5,0,0,0"/>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Left" 
+                          VerticalAlignment="Stretch" Background="Transparent"/>
+            <Grid MinWidth="250" Grid.Column="1" Margin="5,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                              Background="Transparent"/>
+                <local:ProjectLayoutView Background="{StaticResource Editor.Window.GrayBrush3}"/>
+                <local:GameEntityView  Background="{StaticResource Editor.Window.GrayBrush3}"
+                                       Margin="0,5,0,0"
+                    Grid.Row="1"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

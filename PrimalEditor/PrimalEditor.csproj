@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+	  <Platforms>x64</Platforms>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>	 
+    <BaseOutputPath>..\x64\</BaseOutputPath>	 
+    <Configurations>Debug;Release;DebugEditor;ReleaseEditor</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ProjectTemplates\EmptyProject\MSVCProject" />
+    <None Remove="ProjectTemplates\EmptyProject\MSVCSolution" />
+    <None Remove="ProjectTemplates\EmptyProject\project.primal" />
+    <None Remove="ProjectTemplates\EmptyProject\template.xml" />
+    <None Remove="ProjectTemplates\FirstPersonProject\project.primal" />
+    <None Remove="ProjectTemplates\FirstPersonProject\template.xml" />
+    <None Remove="ProjectTemplates\ThirdPersonProject\project.primal" />
+    <None Remove="ProjectTemplates\ThirdPersonProject\template.xml" />
+    <None Remove="ProjectTemplates\TopDownProject\project.primal" />
+    <None Remove="ProjectTemplates\TopDownProject\template.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ProjectTemplates\EmptyProject\MSVCProject">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\EmptyProject\MSVCSolution">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\EmptyProject\project.primal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\EmptyProject\template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\FirstPersonProject\project.primal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\FirstPersonProject\template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\ThirdPersonProject\project.primal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\ThirdPersonProject\template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\TopDownProject\project.primal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectTemplates\TopDownProject\template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="envdte" Version="17.14.40260" />
+    <PackageReference Include="envdte80" Version="17.14.40260" />
+  </ItemGroup>
+
+</Project>
