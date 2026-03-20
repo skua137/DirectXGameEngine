@@ -1,6 +1,7 @@
 ﻿using PrimalEditor.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.Serialization;
@@ -64,6 +65,13 @@ namespace PrimalEditor.Components
 
         public override IMSComponent GetMultiSelectionComponent(MSEntity mSEntity)
             => new MSTransform(mSEntity);
+
+        public override void WriteToBinary(BinaryWriter bw)
+        {
+            bw.Write(position.X); bw.Write(position.Y); bw.Write(position.Z);
+            bw.Write(rotation.X); bw.Write(rotation.Y); bw.Write(rotation.Z);
+            bw.Write(scale.X); bw.Write(scale.Y); bw.Write(scale.Z);
+        }
     }
 
     sealed class MSTransform : MSComponent<Transform>

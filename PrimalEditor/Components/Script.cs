@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace PrimalEditor.Components
 {
@@ -27,7 +29,14 @@ namespace PrimalEditor.Components
 
         public override IMSComponent GetMultiSelectionComponent(MSEntity mSEntity) => new MSScript(mSEntity);
 
-        public Script(GameEntity owner) : base(owner) { }   
+        public Script(GameEntity owner) : base(owner) { }
+
+        public override void WriteToBinary(BinaryWriter bw)
+        {
+           var nameBytes = Encoding.UTF8.GetBytes(Name);
+            bw.Write(nameBytes.Length);
+            bw.Write(nameBytes);
+        }
     }
 
     sealed class MSScript : MSComponent<Script>

@@ -16,6 +16,7 @@ namespace PrimalEditor.GameProject
             {
                 name = "NewProject";
                 projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\PrimalProjects\";
+                //projectPath = $@"C:\PrimalProjects\";
                 var templateFiles = Directory.GetFiles(_templatePath, "template.xml", SearchOption.AllDirectories);
                 Debug.Assert(templateFiles.Any());
                 foreach (var templateFile in templateFiles)

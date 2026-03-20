@@ -1,13 +1,9 @@
-﻿using PrimalEditor.Utilities;
-using System;
-using System.Collections.Generic;
+﻿using PrimalEditor.GameProject;
+using PrimalEditor.Utilities;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.InteropServices;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace PrimalEditor.GameDev
 {
@@ -187,7 +183,7 @@ namespace PrimalEditor.GameDev
                 {
                     Debug.WriteLine(ex.Message);
                     Debug.WriteLine($"Attempt {i}: failed to build {project.Name}");
-                    Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(1000);
                 }
             }
         }
@@ -211,6 +207,22 @@ namespace PrimalEditor.GameDev
         private static void BuildEvents_OnBuildProjConfigBegin(string project, string projectConfig, string platform, string solutionConfig)
         {
             Logger.Log(MessageType.Info, $"Building {project}{projectConfig}{platform}{solutionConfig}");
+        }
+
+        public static void Run(Project project, string configName, bool debug)
+        {
+            if(_vsInstance != null && !IsDebugging() && BuildDone && BuildSucceeded)
+            {
+                _vsInstance.ExecuteCommand(debug ? "Debug.Start" : "Debug.StartWithoutDebugging");
+            }
+        }
+
+        public static void Stop()
+        {
+            if (_vsInstance != null && IsDebugging())
+            {
+                _vsInstance.ExecuteCommand("Debug.StopDebugging");
+            }
         }
     }
 }
