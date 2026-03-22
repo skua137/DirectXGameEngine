@@ -56,19 +56,24 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Background="{StaticResource Editor.Selected.BackgroundBrush}">
-                    <StackPanel VerticalAlignment="Center">
-                        <cc:NumberBox VerticalAlignment="Center" Value="0" Multiplier="10"  Foreground="{StaticResource Editor.FontBrush}"/>
-                        <cc:ScalarBox VerticalAlignment="Center" Value="0" Multiplier="10"  />
-                        <!--<cc:VectorBox X="0" Y="1" Z="2"  W="3"  VectorType="Vector2"/>
-                        <cc:VectorBox X="0" Y="1" Z="2"  W="3" VectorType="Vector3"/>
-                        <cc:VectorBox X="0" Y="1" Z="2" W="3" VectorType="Vector4"/>
-
-                        <cc:VectorBox X="0" Y="1" Z="2"  W="3" VectorType="Vector2" Orientation="Vertical"/>
-                        <cc:VectorBox X="0" Y="1" Z="2"  W="3" VectorType="Vector3" Orientation="Vertical"/>
-                        <cc:VectorBox X="0" Y="1" Z="2" W="3" VectorType="Vector4" Orientation="Vertical"/>-->
-                    </StackPanel>
-                </Border>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Background="Transparent" 
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="5"/>
+                    <GridSplitter Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" 
+                                  VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="5"/>
+                    <utilities:RenderSurfaceView Grid.Row="0" Grid.Column="0" Margin="0,0,5,0"/>
+                    <utilities:RenderSurfaceView Grid.Row="0" Grid.Column="1" Margin="0,0,0,0"/>
+                    <utilities:RenderSurfaceView Grid.Row="1" Grid.Column="0" Margin="0,5,5,0"/>
+                    <utilities:RenderSurfaceView Grid.Row="1" Grid.Column="1" Margin="0,5,0,0"/>
+                </Grid>
                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                               Background="Transparent"/>
                 <Grid Grid.Row="1" Margin="0,5,0,0">

@@ -172,7 +172,7 @@ namespace PrimalEditor.GameDev
                         _vsInstance.Solution.Open(project.Solution);
                     _vsInstance.MainWindow.Visible = showWindow;
 
-                    _vsInstance.Events.BuildEvents.OnBuildProjConfigBegin += BuildEvents_OnBuildProjConfigBegin; ;
+                    _vsInstance.Events.BuildEvents.OnBuildProjConfigBegin += BuildEvents_OnBuildProjConfigBegin; 
                     _vsInstance.Events.BuildEvents.OnBuildProjConfigDone += BuildEvents_OnBuildProjConfigDone;
 
                     _vsInstance.Solution.SolutionBuild.SolutionConfigurations.Item(configname).Activate();

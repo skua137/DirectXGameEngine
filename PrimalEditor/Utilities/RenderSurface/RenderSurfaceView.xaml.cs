@@ -1,0 +1,123 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace PrimalEditor.Utilities
+{
+    /// <summary>
+    /// Interaction logic for RenderSurfaceView.xaml
+    /// </summary>
+    public partial class RenderSurfaceView : UserControl, IDisposable
+    {
+        private enum Win32Msg
+        {
+            WM_SIZING = 0x0214,
+            WM_ENTERSIZEMOVE =0x0231,
+            WM_EXITSIZEMOVE =0x0232,
+            WM_SIZE = 0x0005,
+        }
+
+        private RenderSurfaceHost host = null;
+        private bool canResize = true;
+        private bool moved = false;
+        private bool disposedValue;
+
+        public RenderSurfaceView()
+        {
+            InitializeComponent();
+            Loaded += RenderSurfaceView_Loaded;
+        }
+
+        private void RenderSurfaceView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= RenderSurfaceView_Loaded;
+            host = new RenderSurfaceHost(ActualWidth, ActualHeight);
+            host.MessageHook += new HwndSourceHook(HostMsgFilter);
+            Content = host;
+
+            var window = this.FindVisualParent<Window>();
+            Debug.Assert(window != null);
+
+            var helper = new WindowInteropHelper(window);
+            if (helper.Handle != IntPtr.Zero)
+            {
+                HwndSource.FromHwnd(helper.Handle)?.AddHook(HwndMessageHook);
+            }
+        }
+
+        private nint HwndMessageHook(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
+        {
+            switch ((Win32Msg)msg)
+            {
+                case Win32Msg.WM_SIZING:
+                    canResize = false;
+                    moved = false;
+                    break;
+                case Win32Msg.WM_ENTERSIZEMOVE:
+                    moved = true;
+                    break;
+                case Win32Msg.WM_EXITSIZEMOVE:
+                    canResize = true;
+                    if(!moved)
+                    {
+                        host.Resize();
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        private nint HostMsgFilter(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
+        {
+            switch((Win32Msg)msg)
+            {
+                case Win32Msg.WM_ENTERSIZEMOVE: throw new Exception();
+                case Win32Msg.WM_EXITSIZEMOVE: throw new Exception();
+                case Win32Msg.WM_SIZING: throw new Exception();
+                case Win32Msg.WM_SIZE:
+                    if(canResize)
+                        host.Resize();
+                    break;
+
+                default:
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    host.Dispose();
+                }
+                 
+                disposedValue = true;
+            }
+        }
+         
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+    }
+}

@@ -125,11 +125,19 @@ void
 resize_window(window_id id, u32 width, u32 height)
 {
 	window_info& info{ get_from_id(id) };
-	RECT area{ info.is_fullscreen ? info.fullscreen_area : info.client_area };
-	area.bottom = area.top + height;
-	area.right = area.left + width;
 
-	resize_window(info, area);
+	if (info.style & WS_CHILD)
+	{
+		GetClientRect(info.hwnd, &info.client_area);
+	}
+	else
+	{
+		RECT area{ info.is_fullscreen ? info.fullscreen_area : info.client_area };
+		area.bottom = area.top + height;
+		area.right = area.left + width;
+
+		resize_window(info, area);
+	}
 }
 
 bool
