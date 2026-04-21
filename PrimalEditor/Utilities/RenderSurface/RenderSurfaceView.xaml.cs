@@ -31,8 +31,6 @@ namespace PrimalEditor.Utilities
         }
 
         private RenderSurfaceHost host = null;
-        private bool canResize = true;
-        private bool moved = false;
         private bool disposedValue;
 
         public RenderSurfaceView()
@@ -48,38 +46,7 @@ namespace PrimalEditor.Utilities
             host.MessageHook += new HwndSourceHook(HostMsgFilter);
             Content = host;
 
-            var window = this.FindVisualParent<Window>();
-            Debug.Assert(window != null);
-
-            var helper = new WindowInteropHelper(window);
-            if (helper.Handle != IntPtr.Zero)
-            {
-                HwndSource.FromHwnd(helper.Handle)?.AddHook(HwndMessageHook);
-            }
-        }
-
-        private nint HwndMessageHook(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
-        {
-            switch ((Win32Msg)msg)
-            {
-                case Win32Msg.WM_SIZING:
-                    canResize = false;
-                    moved = false;
-                    break;
-                case Win32Msg.WM_ENTERSIZEMOVE:
-                    moved = true;
-                    break;
-                case Win32Msg.WM_EXITSIZEMOVE:
-                    canResize = true;
-                    if(!moved)
-                    {
-                        host.Resize();
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return IntPtr.Zero;
+           
         }
 
         private nint HostMsgFilter(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
@@ -90,8 +57,6 @@ namespace PrimalEditor.Utilities
                 case Win32Msg.WM_EXITSIZEMOVE: throw new Exception();
                 case Win32Msg.WM_SIZING: throw new Exception();
                 case Win32Msg.WM_SIZE:
-                    if(canResize)
-                        host.Resize();
                     break;
 
                 default:

@@ -10,7 +10,7 @@
 	  <Platforms>x64</Platforms>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>	 
     <BaseOutputPath>..\x64\</BaseOutputPath>	 
-    <Configurations>Debug;Release;DebugEditor;ReleaseEditor</Configurations>
+    <Configurations>DebugEditor;ReleaseEditor</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

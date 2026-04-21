@@ -18,6 +18,17 @@ namespace PrimalEditor.Utilities.CustomControls
         private bool _valueChanged = false;
         private double _mouseXStart = 0;
         private double _multiplier = 0;
+
+        public event RoutedEventHandler ValueChanged
+        {
+            add { AddHandler(ValueChangedEvent, value); }
+            remove { RemoveHandler(ValueChangedEvent, value); }
+        }
+
+        public static readonly RoutedEvent ValueChangedEvent =
+            EventManager.RegisterRoutedEvent(nameof(ValueChanged), RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler), typeof(NumberBox));
+
         public string Value 
         {
             get=>(string)  GetValue(ValueProperty); 
@@ -26,7 +37,13 @@ namespace PrimalEditor.Utilities.CustomControls
 
         public static readonly DependencyProperty ValueProperty
             = DependencyProperty.Register(nameof(Value), typeof(string), typeof(NumberBox),
-                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    new PropertyChangedCallback(OnValueChanged)));
+
+        private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as NumberBox).RaiseEvent(new RoutedEventArgs(ValueChangedEvent));
+        }
 
         public double Multiplier
         {
@@ -90,7 +107,7 @@ namespace PrimalEditor.Utilities.CustomControls
                     else
                         _multiplier = 0.01;
                     var newValue = _originalValue + (d* _multiplier* Multiplier);
-                    Value = newValue.ToString("0.#####");
+                    Value = newValue.ToString("G5");
                     _valueChanged = true;
                 }
             }

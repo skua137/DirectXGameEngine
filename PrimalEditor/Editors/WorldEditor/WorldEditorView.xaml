@@ -43,6 +43,7 @@
                 <ComboBoxItem>Debug</ComboBoxItem>
                 <ComboBoxItem>Release</ComboBoxItem>
             </ComboBox>
+            <Button Content="Primitive mesh" Click="OnCreatePrimitiveMesh_Button_Click" Margin="10,0"/>
         </StackPanel>
         
         <Grid Grid.Row="1">
